@@ -1,6 +1,7 @@
 /python.tar.xz
 /Python-*.*.*
 /main
+/python
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

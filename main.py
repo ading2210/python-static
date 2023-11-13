@@ -14,9 +14,12 @@ import importlib
 if sys.copyright == "":
   pass #modules_here
 
-def mode_interactive():
-  banner = f'Python {sys.version} on {sys.platform}\n'
-  banner += 'Type "help", "copyright", "credits" or "license" for more information.'
+def mode_interactive(quiet=False):
+  version = sys.version.replace("\n", "")
+  banner = ""
+  if not quiet:
+    banner = f'Python {version} on {sys.platform}\n'
+    banner += 'Type "help", "copyright", "credits" or "license" for more information.'
   code.interact(exitmsg="", banner=banner)
 
 def mode_print_version():
@@ -48,6 +51,7 @@ if __name__ == "__main__":
   parser.add_argument("-c", dest="cmd", action="store", help="run a program passed in as string")
   parser.add_argument("-m", dest="mod", action="store", help="run library module as a script")
   parser.add_argument("-V", "--version", action="store_true", help="print the Python version number and exit")
+  parser.add_argument("-q", action="store_true", help="don't print version and copyright messages on interactive startup")
   parser.add_argument("args", nargs="*", action="store", help="arguments to be passed onto the script")
 
   args = vars(parser.parse_args())
@@ -68,4 +72,4 @@ if __name__ == "__main__":
     mode_exec_file(exec_file, program_args)
   else:
     #no arguments
-    mode_interactive()
+    mode_interactive(args.get("q"))
