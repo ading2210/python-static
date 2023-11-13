@@ -15,26 +15,39 @@ exclude = [
   "tkinter",
   "turtledemo",
   "unittest",
-  "turtle"
+  "turtle",
+  "distutils.tests",
+  "ctypes.test",
+  "idlelib",
+  "lib2to3"
 ]
 
-def find_modules(search_path):
+def check_exclude(module_name):
+  for excluded_module in exclude:
+    if module_name.startswith(excluded_module):
+      return True
+  return False
+
+def find_modules(search_path, prefix=""):
   modules = []
   for path in search_path.iterdir():
     if path.name == "__init__.py" or "-" in path.name:
       continue
 
     name = path.stem
-    if name in exclude:
+    if prefix:
+      name = f"{prefix}.{name}"
+    if check_exclude(name):
       continue
 
     if path.is_file() and path.suffix == ".py":
       modules.append(name)
     elif path.is_dir() and (path / "__init__.py").exists():
       modules.append(name)
-  
-  return modules
+      modules += find_modules(path, name)
 
+  return modules
+  
 module_names = find_modules(lib_path)
 modules_string = ",".join(module_names)
 new_main = main_text.replace("pass #modules_here", f"import {modules_string}", 1)
