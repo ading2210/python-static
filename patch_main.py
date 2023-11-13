@@ -14,18 +14,17 @@ exclude = [
   "test",
   "tkinter",
   "turtledemo",
-  "unittest"
+  "unittest",
+  "turtle"
 ]
 
-def find_modules(search_path, prefix=""):
+def find_modules(search_path):
   modules = []
   for path in search_path.iterdir():
     if path.name == "__init__.py" or "-" in path.name:
       continue
 
     name = path.stem
-    if prefix:
-      name = f"{prefix}.{name}"
     if name in exclude:
       continue
 
@@ -33,11 +32,11 @@ def find_modules(search_path, prefix=""):
       modules.append(name)
     elif path.is_dir() and (path / "__init__.py").exists():
       modules.append(name)
-      #modules += find_modules(path, name)
   
   return modules
 
 module_names = find_modules(lib_path)
 modules_string = ",".join(module_names)
 new_main = main_text.replace("pass #modules_here", f"import {modules_string}", 1)
+
 print(new_main)

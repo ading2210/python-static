@@ -47,7 +47,7 @@ if __name__ == "__main__":
 
   parser.add_argument("-c", dest="cmd", action="store", help="run a program passed in as string")
   parser.add_argument("-m", dest="mod", action="store", help="run library module as a script")
-  parser.add_argument("-v", "--version", action="store_true", help="print the Python version number and exit")
+  parser.add_argument("-V", "--version", action="store_true", help="print the Python version number and exit")
   parser.add_argument("args", nargs="*", action="store", help="arguments to be passed onto the script")
 
   args = vars(parser.parse_args())
