@@ -5,7 +5,7 @@ import re
 #parse the Modules/Setup file and generate a valid Modules/Setup.local file to allow static linking
 
 #these are just the ones that failed to compile on my system
-excluded_modules = ["_testcapi", "_testinternalcapi", "nis", "_dbm", "_ssl"]
+excluded_modules = ["_testcapi", "_testinternalcapi", "nis", "_dbm", "_ssl", "_gdbm"]
 
 setup_path = pathlib.Path(sys.argv[1]).resolve()
 setup_text = setup_path.read_text()

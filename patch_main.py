@@ -8,6 +8,15 @@ base_path = pathlib.Path(__file__).resolve().parent
 main_path = base_path / "main.py"
 main_text = main_path.read_text()
 
+exclude = [
+  "ensurepip",
+  "pip",
+  "test",
+  "tkinter",
+  "turtledemo",
+  "unittest"
+]
+
 def find_modules(search_path, prefix=""):
   modules = []
   for path in search_path.iterdir():
@@ -17,12 +26,14 @@ def find_modules(search_path, prefix=""):
     name = path.stem
     if prefix:
       name = f"{prefix}.{name}"
+    if name in exclude:
+      continue
 
     if path.is_file() and path.suffix == ".py":
       modules.append(name)
     elif path.is_dir() and (path / "__init__.py").exists():
       modules.append(name)
-      modules += find_modules(path, name)
+      #modules += find_modules(path, name)
   
   return modules
 
