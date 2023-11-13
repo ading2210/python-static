@@ -39,5 +39,5 @@ def find_modules(search_path, prefix=""):
 
 module_names = find_modules(lib_path)
 modules_string = ",".join(module_names)
-new_main = main_text.replace("pass #modules_here", f"import {modules_string}")
+new_main = main_text.replace("pass #modules_here", f"import {modules_string}", 1)
 print(new_main)

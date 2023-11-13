@@ -1,7 +1,7 @@
 # Static Python Builder
 This is a set of scripts to statically compile Python 3.9.18 into a binary that's only 11MB in size (after packing with UPX), complete with the entire standard library.
 
-The purpose of this is the compile the smallest possible Python runtime for use in [shimboot](https://github.com/ading2210/shimboot), but this can be used for other applications as well.
+The purpose of this is to compile the smallest possible Python runtime for use in [shimboot](https://github.com/ading2210/shimboot), but this can be used for other applications as well.
 
 ## Explanation:
 Statically compiling the interpreter alone isn't very hard, as you just need to [add a few arguments](https://wiki.python.org/moin/BuildStatically) when building it. However, the resulting binary does not contain the portions of the standard library which are written in pure Python. 
