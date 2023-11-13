@@ -29,10 +29,7 @@ make LDFLAGS="-static" LINKFORSHARED=" " -j$core_count
 make install -j$core_count
 
 #find modules in stdlib and add them to main.py
-stdlib_modules=$(find "$source_dir/Lib/" -mindepth 1 -maxdepth 1 -exec basename {} .py ';')
-stdlib_modules=$(echo "$stdlib_modules" | sed "/site-packages/d")
-stdlib_modules=$(echo "$stdlib_modules" | xargs | tr -s "[:blank:]" ",")
-cat $base_dir/main.py | sed "s/pass #modules_here/import $stdlib_modules/" > $build_static/main.py
+python3 $base_dir/patch_main.py $source_dir/Lib > $build_static/main.py
 
 #use freeze.py to build our new main.py
 cd $build_static
