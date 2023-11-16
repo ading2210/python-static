@@ -4,6 +4,7 @@ import platform
 import argparse
 import runpy
 import importlib
+import pathlib
 
 #a command-line interface for python which should be mostly compatible with the original one
 
@@ -13,6 +14,10 @@ import importlib
 #by an unreachable import statement
 if sys.copyright == "":
   pass #modules_here
+
+def get_script_dir(path):
+  script_path = pathlib.Path(path).resolve()
+  return str(script_path.parent)
 
 def mode_interactive(quiet=False):
   version = sys.version.replace("\n", "")
@@ -35,10 +40,12 @@ def mode_exec_module(module_name, program_args):
     print(f"No module named {module_name}", file=sys.stderr)
     sys.exit(1)
   sys.argv = [spec.origin] + program_args
+  sys.path.append(get_script_dir(spec.origin))
   runpy.run_module(module_name, run_name="__main__")
 
 def mode_exec_file(file_path, program_args):
   sys.argv = [file_path] + program_args
+  sys.path.append(get_script_dir(file_path))
   runpy.run_path(file_path, run_name="__main__")
 
 if __name__ == "__main__":
