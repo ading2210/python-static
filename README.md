@@ -8,10 +8,10 @@ Statically compiling the interpreter alone isn't very hard, as you just need to 
 
 To compile the rest of the standard library, the built in [Freeze](https://wiki.python.org/moin/Freeze) tool is used, which can transpile a Python program into C. A compatible command-line interface is written in `main.py`, which we can run through Freeze. To include the standard library, we can just trick Freeze into thinking they are imported via an unreachable `if` statement containing an `import` of the entire standard library.
 
-Then, Freeze is run, which generates a bunch of C files and a Makefile. Finally, we just run `make` to compile it, producing our static executable. Running it through [UPX](https://upx.github.io/) makes it even smaller, down to the final 11MB.
+Then, Freeze is run, which generates a bunch of C files and a Makefile. Finally, we just run `make` to compile it, producing our static executable. Running it through [UPX](https://upx.github.io/) makes it even smaller, down to the final 5.1MB.
 
 ## Usage:
-If you want to compile this for yourself, you just have to clone this repo, cd into it, and run `build.sh`. This will include the entire standard library, with a few exceptions.
+If you want to compile this for yourself, you just have to clone this repo, cd into it, and run `build.sh`. This will include the entire standard library, with a few exceptions. Make sure you install [all needed dependencies](https://devguide.python.org/getting-started/setup-building/#install-dependencies) before you run the script.
 
 If you want to customize which modules are included, edit `patch_main.py`, and add them to the `exclude` list.
 
