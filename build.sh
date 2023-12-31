@@ -7,16 +7,16 @@ core_count=$(nproc --all)
 
 python_version="3.9.18"
 python_source_url="https://www.python.org/ftp/python/$python_version/Python-$python_version.tar.xz"
-python_tar="$base_dir/python.tar.xz"
+python_tar="$base_dir/python-$python_version.tar.xz"
 
 if ! [ -f "$python_tar" ]; then
-  wget -O "$base_dir/python.tar.xz" "$python_source_url" 
+  wget -O "$python_tar" "$python_source_url" 
 fi
 source_dir="$base_dir/Python-$python_version"
 build_prefix="$source_dir/prefix"
 build_static="$source_dir/build_static"
 rm -rf "$source_dir"
-tar -xf "$base_dir/python.tar.xz"
+tar -xf "$python_tar"
 mkdir "$build_prefix"
 mkdir "$build_static"
 
@@ -24,7 +24,7 @@ mkdir "$build_static"
 python3 "$base_dir/parse_setup.py" "$source_dir/Modules/Setup" > "$source_dir/Modules/Setup.local"
 
 cd "$source_dir"
-./configure LDFLAGS="-static" --disable-shared --prefix="$source_dir/prefix"
+./configure LDFLAGS="-static" OPT="-Os" --disable-shared --prefix="$source_dir/prefix"
 make LDFLAGS="-static" LINKFORSHARED=" " -j$core_count
 make install -j$core_count
 
@@ -34,7 +34,7 @@ python3 $base_dir/patch_main.py $source_dir/Lib > $build_static/main.py
 #use freeze.py to build our new main.py
 cd $build_static
 $build_prefix/bin/python3 $source_dir/Tools/freeze/freeze.py -p "$build_prefix" ./main.py
-make -j$core_count
+make -j$core_count OPT="-Os"
 mv ./main $base_dir/main
 
 echo "build done! check ./main for your executable"

@@ -7,7 +7,7 @@ import importlib
 import pathlib
 
 #a command-line interface for python which should be mostly compatible with the original one
-
+VERSION="1.0.0"
 
 #trick freeze into including these modules without actually importing them
 #the code the if statement will be modified by the build script, and replaced
@@ -23,12 +23,12 @@ def mode_interactive(quiet=False):
   version = sys.version.replace("\n", "")
   banner = ""
   if not quiet:
-    banner = f'Python {version} on {sys.platform}\n'
+    banner = f'Python {version} on {sys.platform}, python-static {VERSION}\n'
     banner += 'Type "help", "copyright", "credits" or "license" for more information.'
   code.interact(exitmsg="", banner=banner)
 
 def mode_print_version():
-  print(f"Python {platform.python_version()}")
+  print(f"Python {platform.python_version()}, python-static {VERSION}")
 
 def mode_exec_string(program, program_args):
   sys.argv = ["-c"] + program_args
